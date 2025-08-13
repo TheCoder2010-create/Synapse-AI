@@ -169,7 +169,7 @@ export class KnowledgeBaseDB {
     this.entries.set(entry.id, entry);
     this.updateSearchIndex(entry);
     this.updateStats(entry, 'add');
-    
+
     console.log(`Added knowledge base entry: ${entry.title} (${entry.type})`);
   }
 
@@ -184,10 +184,10 @@ export class KnowledgeBaseDB {
 
     const updated = { ...existing, ...updates, metadata: { ...existing.metadata, ...updates.metadata } };
     updated.metadata.updated_at = new Date();
-    
+
     this.entries.set(id, updated);
     this.updateSearchIndex(updated);
-    
+
     console.log(`Updated knowledge base entry: ${id}`);
     return true;
   }
@@ -204,7 +204,7 @@ export class KnowledgeBaseDB {
     this.entries.delete(id);
     this.removeFromSearchIndex(entry);
     this.updateStats(entry, 'remove');
-    
+
     console.log(`Deleted knowledge base entry: ${id}`);
     return true;
   }
@@ -265,7 +265,7 @@ export class KnowledgeBaseDB {
     // Text search
     if (text) {
       const searchTerms = text.toLowerCase().split(/\s+/);
-      
+
       for (const term of searchTerms) {
         const matchingIds = this.searchIndex.get(term) || new Set();
         if (candidates.size === 0) {
@@ -282,7 +282,7 @@ export class KnowledgeBaseDB {
 
     // Apply filters
     const results: KnowledgeBaseEntry[] = [];
-    
+
     for (const id of candidates) {
       const entry = this.entries.get(id);
       if (!entry) continue;
@@ -298,7 +298,7 @@ export class KnowledgeBaseDB {
       if (a.metadata.relevance_score && b.metadata.relevance_score) {
         return b.metadata.relevance_score - a.metadata.relevance_score;
       }
-      
+
       // Secondary sort: views
       return b.metadata.views - a.metadata.views;
     });
@@ -312,9 +312,9 @@ export class KnowledgeBaseDB {
     // 1. Generate embeddings for the search text
     // 2. Calculate similarity with stored embeddings
     // 3. Return results sorted by similarity
-    
+
     console.log(`Semantic search for: "${text}" (mock implementation)`);
-    
+
     // For now, fall back to keyword search
     return this.keywordSearch(text, filters);
   }
@@ -392,20 +392,20 @@ export class KnowledgeBaseDB {
 
     // Update breakdowns
     if (entry.metadata.system) {
-      this.stats.systemBreakdown[entry.metadata.system] = 
+      this.stats.systemBreakdown[entry.metadata.system] =
         (this.stats.systemBreakdown[entry.metadata.system] || 0) + multiplier;
     }
 
     if (entry.metadata.modality) {
       for (const modality of entry.metadata.modality) {
-        this.stats.modalityBreakdown[modality] = 
+        this.stats.modalityBreakdown[modality] =
           (this.stats.modalityBreakdown[modality] || 0) + multiplier;
       }
     }
 
     if (entry.metadata.pathology) {
       for (const pathology of entry.metadata.pathology) {
-        this.stats.pathologyBreakdown[pathology] = 
+        this.stats.pathologyBreakdown[pathology] =
           (this.stats.pathologyBreakdown[pathology] || 0) + multiplier;
       }
     }
@@ -513,7 +513,7 @@ export class KnowledgeBaseDB {
               updated_at: new Date(),
               views: 0
             },
-            images: case_.studies.flatMap(study => 
+            images: case_.studies.flatMap(study =>
               study.images.map(img => ({
                 id: `radiopaedia_case_image_${img.id}`,
                 url: img.image_url,
@@ -634,7 +634,7 @@ export class KnowledgeBaseDB {
       lastUpdated: new Date(),
       syncStatus: 'idle'
     };
-    
+
     console.log('Knowledge base cleared');
   }
 }
