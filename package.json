@@ -17,10 +17,13 @@
     "test:functions": "tsx scripts/test-functions.ts",
     "install:gpt-oss": "powershell -ExecutionPolicy Bypass -File scripts/install-gpt-oss.ps1",
     "test:gpt-oss": "tsx scripts/test-gpt-oss.ts",
-    "gpt-oss:diagnosis": "tsx -e \"import('./ai/flows/gpt-oss-diagnosis').then(m => console.log('GPT-OSS diagnosis flow loaded'))\""
+    "gpt-oss:diagnosis": "tsx -e \"import('./ai/flows/gpt-oss-diagnosis').then(m => console.log('GPT-OSS diagnosis flow loaded'))\"",
+    "test:medical-imaging": "tsx scripts/test-medical-imaging-api.ts",
+    "test:ai-diagnosis": "tsx scripts/test-ai-diagnosis.ts"
   },
   "dependencies": {
     "@aws-sdk/client-medical-imaging": "^3.848.0",
+    "@supabase/supabase-js": "^2.39.0",
     "@genkit-ai/googleai": "^1.13.0",
     "@genkit-ai/next": "^1.13.0",
     "@hookform/resolvers": "^4.1.3",
