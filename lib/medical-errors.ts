@@ -217,7 +217,7 @@ export async function withMedicalRetry<T>(
     options: Partial<MedicalRetryOptions> = {}
 ): Promise<T> {
     const config = { ...DEFAULT_MEDICAL_RETRY_OPTIONS, ...options };
-    let lastError: MedicalAIError | null = nnll;
+    let lastError: MedicalAIError | null = null;
 
     for (let attempt = 1; attempt <= config.maxAttempts; attempt++) {
         try {
@@ -278,26 +278,6 @@ export async function withMedicalRetry<T>(
     config.onFinalFailure?.(lastError);
     throw lastError;
 }
-  kn        MedicalErrorSeverity.HIGH,
-    { context, maxAext, max configAttempo   ts }    Mg.maxAttempts }
-        );
-    }
-
-    confi    ednalFailure ? icdwn icaor);
-throw lastError;
-}lErrorSeverity.H,
-    }
-}
-co as.onFinalFailunalF(lastError);
-ai  throw laslurtrroError);
-throw lastError;
-}
-   H   {
-    cIGH,
-
-    il
-    config.onFinalFailure?.(lastError);
-    icalErrcalErrorCodeerror`,
      
 
 /**
@@ -324,7 +304,7 @@ export function validateMedicalMeasurement(
     if (normalRange && normalRange.unit === unit) {
         if (value < normalRange.min || value > normalRange.max) {
             throw new MedicalAIError(
-                `Measurement for ${ structure }(${ value } ${ unit }) is outside normal range(${ normalRange.min } - ${ normalRange.max } ${ unit })`,
+                `Measurement for ${structure}(${value} ${unit}) is outside normal range(${normalRange.min} - ${normalRange.max} ${unit})`,
                 MedicalErrorCode.MEASUREMENT_OUT_OF_RANGE,
                 value < normalRange.min * 0.5 || value > normalRange.max * 2 ?
                     MedicalErrorSeverity.CRITICAL : MedicalErrorSeverity.HIGH,
@@ -382,7 +362,7 @@ export class MedicalErrorReporter {
             workflow: string;
         }
     ): string {
-        const errorId = `MED_${ Date.now() }_${ Math.random().toString(36).substr(2, 9) } `;
+        const errorId = `MED_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
         const report: MedicalErrorReport = {
             errorId,
@@ -394,7 +374,7 @@ export class MedicalErrorReporter {
         this.errorLog.push(report);
 
         // In production, this would send to monitoring/alerting system
-        console.error(`Medical Error Report ${ errorId }: `, {
+        console.error(`Medical Error Report ${errorId}: `, {
             code: error.code,
             severity: error.severity,
             message: error.message,
